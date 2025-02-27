@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from State import State
-from configs import class_9, class_8, class_7
+from src.State import State
+from src.configs.configs import class_9, class_8, class_7
 
 GREETING_MESSAGE = "Вітаю! Виберіть одну з опцій:"
 

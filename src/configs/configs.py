@@ -1,3 +1,9 @@
+LLM_API = ""
+LLM_URL = "https://api.perplexity.ai"
+TG_TOKEN = ""
+EMAIL = ""
+EMAIL_PASS = ""
+
 BASE_QUESTIONS_NUMBER = 6
 
 POSITIVE_RANGE = 2

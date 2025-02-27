@@ -3,22 +3,19 @@ from aiogram import Bot, Dispatcher
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.filters import Command
 from src.User import User
-from src.configs.configs import CLASSES, ALL_TOPICS
+from src.configs.configs import CLASSES, ALL_TOPICS, LLM_URL, LLM_API, TG_TOKEN
 from openai import AsyncOpenAI
 
-# LLM_API = "PLACEHOLDER_API"
-YOUR_API_KEY = "API"
+LLM_API_CLIENT = AsyncOpenAI(api_key=LLM_API, base_url=LLM_URL)
 
-LLM_API = AsyncOpenAI(api_key=YOUR_API_KEY, base_url="https://api.perplexity.ai")
-
-bot = Bot(token="TOKEN")
+bot = Bot(token=TG_TOKEN)
 dp = Dispatcher()
 
 user_state: {str: User} = {}
 
 
 async def start_handler(message: Message):
-    user = user_state.setdefault(message.from_user.id, User(LLM_API, message.from_user.id))
+    user = user_state.setdefault(message.from_user.id, User(LLM_API_CLIENT, message.from_user.id))
     await message.answer(user.get_greetings(), reply_markup=user.get_main_menu())
 
 
@@ -60,6 +57,7 @@ async def receive_answer(message: Message):
             await message.answer(user.get_question(), reply_markup=ReplyKeyboardRemove())
         else:
             await message.answer(await user.get_result(), reply_markup=ReplyKeyboardRemove())
+            await user.report_result()
     else:
         await start_handler(message)
 

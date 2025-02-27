@@ -1,15 +1,15 @@
 import re
-from BeginState import BeginState
-from ChooseTopicState import ChooseTopicState
-from LlmApi import LlmApi
-from QuestionState import QuestionState
-from ResultState import ResultState
+from src.BeginState import BeginState
+from src.ChooseTopicState import ChooseTopicState
+from src.LlmApi import LlmApi
+from src.QuestionState import QuestionState
+from src.ResultState import ResultState
 
 
 class User:
-    def __init__(self, llm_api, id: int):
+    def __init__(self, llm_api, user_id: int):
         self.__llm_api = LlmApi(llm_api)
-        self.__id = id
+        self.__id = user_id
         self.__is_active_questions = False
         self.__begin_state = BeginState()
         self.__choose_topic_state = ChooseTopicState()
@@ -47,8 +47,6 @@ class User:
 
             if len(questions) > 0:
                 self.__is_active_questions = True
-                # self.__questions = questions
-
                 for i in range(len(questions)):
                     self.__questions_states.append(QuestionState(questions[i], i))
 
@@ -56,7 +54,6 @@ class User:
             print(f"Помилка генерування питання: {e}")
 
         return self.__is_active_questions
-
 
     def get_question(self):
         state = self.__questions_states.pop(0)
@@ -73,12 +70,15 @@ class User:
         # if self.__result_state is None:
         try:
             estimate = await self.__llm_api.evaluate_answer(self.__qw_response, self.__answers)
-            self.__result_state = ResultState(estimate, True)
+            self.__result_state = ResultState(self.__id, estimate, True)
         except Exception as e:
-            self.__result_state = ResultState("Результату ще немає, можливо спробуйте ще раз")
+            self.__result_state = ResultState(self.__id, "Результату ще немає, можливо спробуйте ще раз")
             print(f"Помилка оцінки відповіді: {e}")
 
         return self.__result_state.get_text()
+
+    async def report_result(self):
+        await self.__result_state.report_result()
 
     @property
     def is_active_questions(self):  # Getter
