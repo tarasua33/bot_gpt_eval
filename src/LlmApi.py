@@ -1,4 +1,4 @@
-from configs import BASE_QUESTIONS_NUMBER, TOPICS_DESCRIPTOR
+from configs.configs import BASE_QUESTIONS_NUMBER, TOPICS_DESCRIPTOR
 
 
 class LlmApi:

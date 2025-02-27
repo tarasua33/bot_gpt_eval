@@ -2,8 +2,8 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.filters import Command
-from User import User
-from configs import CLASSES, ALL_TOPICS
+from src.User import User
+from src.configs.configs import CLASSES, ALL_TOPICS
 from openai import AsyncOpenAI
 
 # LLM_API = "PLACEHOLDER_API"

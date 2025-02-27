@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from State import State
-from configs import TOPICS_SCHEME
+from configs.configs import TOPICS_SCHEME
 
 MESSAGE = "Оберіть тему:"
 

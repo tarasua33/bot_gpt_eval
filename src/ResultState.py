@@ -1,8 +1,7 @@
 from BeginState import main_menu
 from State import State
 import re
-
-from configs import POSITIVE_RANGE, GOOD_RANGE
+from configs.configs import POSITIVE_RANGE, GOOD_RANGE
 
 
 class ResultState(State):
